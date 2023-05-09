@@ -36,7 +36,7 @@ public class CRUZAMENTO {
         Pattern[] Pnovo = new Pattern[tamanhoPopulacao];
 
         //int[] selecao = SELECAO.proporcao25_75(tamanhoPopulacao);
-        int[] selecao = SELECAO.torneioBinario(tamanhoPopulacao, P);
+        int[] selecao = SELECAO.selecaoRoleta(tamanhoPopulacao, P);
 
         int indiceSelecao = 0;
         int indicePnovo = 0;
@@ -118,8 +118,8 @@ public class CRUZAMENTO {
     public static Pattern[] ANDduasPopulacoes(Pattern[] P1, Pattern[] P2, String tipoAvaliacao){
         int tamanhoPopulacao = P1.length;       
         Pattern[] Pnovo = new Pattern[tamanhoPopulacao];
-        int[] indicesP1 = SELECAO.torneioBinario(tamanhoPopulacao, P1);
-        int[] indicesP2 = SELECAO.torneioBinario(tamanhoPopulacao, P2);
+        int[] indicesP1 = SELECAO.selecaoRoleta(tamanhoPopulacao, P1);
+        int[] indicesP2 = SELECAO.selecaoRoleta(tamanhoPopulacao, P2);
         
         for(int i = 0; i < tamanhoPopulacao; i++){
             Pattern p1 = P1[indicesP1[i]];       
@@ -206,8 +206,8 @@ public class CRUZAMENTO {
 //                    indiceP1 = random.nextInt(P.length);
 //                    indiceP2 = random.nextInt(P.length);
 //                }
-                indiceP1 = SELECAO.torneioBinario(P);
-                indiceP2 = SELECAO.torneioBinario(P);
+                indiceP1 = SELECAO.selecaoRoleta(P);
+                indiceP2 = SELECAO.selecaoRoleta(P);
                 
                 Pattern[] novos = CRUZAMENTO.uniforme2D(P[indiceP1], P[indiceP2], tipoAvaliacao);
                 Pnovo[indicePnovo++] = novos[0];
@@ -220,7 +220,7 @@ public class CRUZAMENTO {
 //                }else{//25% de chanses de ser selecionado totalmente aleatório
 //                    indiceP1 = random.nextInt(P.length);                    
 //                }
-                indiceP1 = SELECAO.torneioBinario(P);                    
+                indiceP1 = SELECAO.selecaoRoleta(P);
                 Pnovo[indicePnovo++] = MUTACAO.unGeneD(P[indiceP1], tipoAvaliacao);                                                       
             }
         }
