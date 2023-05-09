@@ -71,6 +71,7 @@ public class SELECAO {
 
     public static int[] selecaoRoleta(int tamanhoPopulacao, Pattern[] P){
         int[] indices = new int[tamanhoPopulacao];
+<<<<<<< HEAD
         double[] probabilidade = new double[P.length];
         double somaQualidade = 0;
 
@@ -88,6 +89,29 @@ public class SELECAO {
             for (int j = 0; j < P.length; j++) {
                 acumulado += probabilidade[j];
                 if (randomValue <= acumulado) {
+=======
+        double[] fitness = new double[P.length];
+        double somaFitness = 0;
+
+        // Calcula o fitness de cada indivíduo e a soma total de fitness
+        for(int i = 0; i < P.length; i++){
+            fitness[i] = P[i].getQualidade();
+            somaFitness += fitness[i];
+        }
+
+        // Normaliza o fitness para que a soma seja igual a 1
+        for(int i = 0; i < P.length; i++){
+            fitness[i] /= somaFitness;
+        }
+
+        // Seleciona indivíduos aleatoriamente usando a roleta
+        for(int i = 0; i < indices.length; i++){
+            double rand = Const.random.nextDouble();
+            double acumulado = 0;
+            for(int j = 0; j < P.length; j++){
+                acumulado += fitness[j];
+                if(acumulado >= rand){
+>>>>>>> b65f99375aaee763b934074ceb9603851cc845e9
                     indices[i] = j;
                     break;
                 }
@@ -97,6 +121,7 @@ public class SELECAO {
         return indices;
     }
 
+<<<<<<< HEAD
 
     public static int selecaoRoleta(Pattern[] P){
         double[] probabilidade = new double[P.length];
@@ -123,6 +148,35 @@ public class SELECAO {
         }
 
         return indiceSelecionado;
+=======
+    public static int selecaoRoleta(Pattern[] P){
+        double[] fitness = new double[P.length];
+        double somaFitness = 0;
+
+        // Calcula o fitness de cada indivíduo e a soma total de fitness
+        for(int i = 0; i < P.length; i++){
+            fitness[i] = P[i].getQualidade();
+            somaFitness += fitness[i];
+        }
+
+        // Normaliza o fitness para que a soma seja igual a 1
+        for(int i = 0; i < P.length; i++){
+            fitness[i] /= somaFitness;
+        }
+
+        // Seleciona um indivíduo aleatoriamente usando a roleta
+        double rand = Const.random.nextDouble();
+        double acumulado = 0;
+        for(int i = 0; i < P.length; i++){
+            acumulado += fitness[i];
+            if(acumulado >= rand){
+                return i;
+            }
+        }
+
+        // Se ocorrer um erro, retorna o índice aleatório de um indivíduo
+        return Const.random.nextInt(P.length);
+>>>>>>> b65f99375aaee763b934074ceb9603851cc845e9
     }
     
     /**
