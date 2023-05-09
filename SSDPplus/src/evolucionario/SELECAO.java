@@ -63,10 +63,71 @@ public class SELECAO {
             if(P[indiceP1].getQualidade() > P[indiceP2].getQualidade()){
                 indices[i] = indiceP1;
             }else{
-                indices[i] = indiceP2;         
+                indices[i] = indiceP2;
             }
         }
         return indices;
+    }
+
+    public static int[] selecaoRoleta(int tamanhoPopulacao, Pattern[] P){
+        int[] indices = new int[tamanhoPopulacao];
+        double[] fitness = new double[P.length];
+        double somaFitness = 0;
+
+        // Calcula o fitness de cada indivíduo e a soma total de fitness
+        for(int i = 0; i < P.length; i++){
+            fitness[i] = P[i].getQualidade();
+            somaFitness += fitness[i];
+        }
+
+        // Normaliza o fitness para que a soma seja igual a 1
+        for(int i = 0; i < P.length; i++){
+            fitness[i] /= somaFitness;
+        }
+
+        // Seleciona indivíduos aleatoriamente usando a roleta
+        for(int i = 0; i < indices.length; i++){
+            double rand = Const.random.nextDouble();
+            double acumulado = 0;
+            for(int j = 0; j < P.length; j++){
+                acumulado += fitness[j];
+                if(acumulado >= rand){
+                    indices[i] = j;
+                    break;
+                }
+            }
+        }
+
+        return indices;
+    }
+
+    public static int selecaoRoleta(Pattern[] P){
+        double[] fitness = new double[P.length];
+        double somaFitness = 0;
+
+        // Calcula o fitness de cada indivíduo e a soma total de fitness
+        for(int i = 0; i < P.length; i++){
+            fitness[i] = P[i].getQualidade();
+            somaFitness += fitness[i];
+        }
+
+        // Normaliza o fitness para que a soma seja igual a 1
+        for(int i = 0; i < P.length; i++){
+            fitness[i] /= somaFitness;
+        }
+
+        // Seleciona um indivíduo aleatoriamente usando a roleta
+        double rand = Const.random.nextDouble();
+        double acumulado = 0;
+        for(int i = 0; i < P.length; i++){
+            acumulado += fitness[i];
+            if(acumulado >= rand){
+                return i;
+            }
+        }
+
+        // Se ocorrer um erro, retorna o índice aleatório de um indivíduo
+        return Const.random.nextInt(P.length);
     }
     
     /**
@@ -83,8 +144,8 @@ public class SELECAO {
         if(P[indiceP1].getQualidade() > P[indiceP2].getQualidade()){
             return indiceP1;
         }else{
-            return indiceP2;                     
-        }        
+            return indiceP2;
+        }
     }
     
     
