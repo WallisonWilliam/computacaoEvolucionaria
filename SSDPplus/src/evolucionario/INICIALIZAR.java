@@ -68,30 +68,39 @@ public class INICIALIZAR {
      * @param tamanhoPopulacao int - tamanho da população
      * @return Pattern[] - nova população
      */
-    public static Pattern[] aleatorio1_D_Pk(String tipoAvaliacao, int tamanhoPopulacao, Pattern[] Pk){
-        //Ajeitar isso!!!
-        int numeroDimensoes =  (int) Avaliador.avaliarMediaDimensoes(Pk, Pk.length);
-        if(numeroDimensoes < 2){
+    public static Pattern[] aleatorio1_D_Pk(String tipoAvaliacao, int tamanhoPopulacao, Pattern[] Pk) {
+        // Calculate the average number of dimensions in the Pk population
+        int numeroDimensoes = (int) Avaliador.avaliarMediaDimensoes(Pk, Pk.length);
+
+        // Ensure the minimum number of dimensions is 2
+        if (numeroDimensoes < 2) {
             numeroDimensoes = 2;
         }
-        
-        //População que será retornada        
+
+        // Create a new population array
         Pattern[] P0 = new Pattern[tamanhoPopulacao];
-        
-        //Adicionando aleatoriamente com até numeroDimensoes itens
-        int i = 0;
-        for(; i < 9*tamanhoPopulacao/10; i++){
+
+        // Fill the population array with random patterns
+        int i;
+        int numRandomPatterns = 9 * tamanhoPopulacao / 10;
+        for (i = 0; i < numRandomPatterns; i++) {
             HashSet<Integer> itens = new HashSet<Integer>();
-            
-            while(itens.size() < numeroDimensoes){
+
+            // Randomly select up to numeroDimensoes items
+            while (itens.size() < numeroDimensoes) {
                 itens.add(D.itensUtilizados[Const.random.nextInt(D.numeroItensUtilizados)]);
-            }            
-            
+            }
+
+            // Create a new pattern with the selected items and add it to the population
             P0[i] = new Pattern(itens, tipoAvaliacao);
-        }        
-        
-        
-        //Coletanto todos os itens distintos da população Pk.
+        }
+
+
+
+
+
+
+    //Coletanto todos os itens distintos da população Pk.
         HashSet<Integer> itensPk = new HashSet<>();
         for(int n = 0; n < Pk.length; n++){
             itensPk.addAll(Pk[n].getItens());

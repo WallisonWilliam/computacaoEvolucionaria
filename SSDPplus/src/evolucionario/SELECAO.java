@@ -63,10 +63,66 @@ public class SELECAO {
             if(P[indiceP1].getQualidade() > P[indiceP2].getQualidade()){
                 indices[i] = indiceP1;
             }else{
-                indices[i] = indiceP2;         
+                indices[i] = indiceP2;
             }
         }
         return indices;
+    }
+
+    public static int[] selecaoRoleta(int tamanhoPopulacao, Pattern[] P){
+        int[] indices = new int[tamanhoPopulacao];
+        double[] probabilidade = new double[P.length];
+        double somaQualidade = 0;
+
+        for (int i = 0; i < P.length; i++) {
+            somaQualidade += P[i].getQualidade();
+        }
+
+        for (int i = 0; i < P.length; i++) {
+            probabilidade[i] = P[i].getQualidade() / somaQualidade;
+        }
+
+        for (int i = 0; i < indices.length; i++) {
+            double randomValue = Const.random.nextDouble();
+            double acumulado = 0;
+            for (int j = 0; j < P.length; j++) {
+                acumulado += probabilidade[j];
+                if (randomValue <= acumulado) {
+                    indices[i] = j;
+                    break;
+                }
+            }
+        }
+
+        return indices;
+    }
+
+
+    public static int selecaoRoleta(Pattern[] P){
+        double[] probabilidade = new double[P.length];
+        double somaQualidade = 0;
+
+        for (int i = 0; i < P.length; i++) {
+            somaQualidade += P[i].getQualidade();
+        }
+
+        for (int i = 0; i < P.length; i++) {
+            probabilidade[i] = P[i].getQualidade() / somaQualidade;
+        }
+
+        double randomValue = Const.random.nextDouble();
+        double acumulado = 0;
+        int indiceSelecionado = 0;
+
+        for (int j = 0; j < P.length; j++) {
+            acumulado += probabilidade[j];
+            if (randomValue <= acumulado) {
+                indiceSelecionado = j;
+                break;
+            }
+        }
+
+        return indiceSelecionado;
     }
     
     /**
@@ -83,8 +139,8 @@ public class SELECAO {
         if(P[indiceP1].getQualidade() > P[indiceP2].getQualidade()){
             return indiceP1;
         }else{
-            return indiceP2;                     
-        }        
+            return indiceP2;
+        }
     }
     
     

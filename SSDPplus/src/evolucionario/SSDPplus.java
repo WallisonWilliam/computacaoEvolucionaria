@@ -85,7 +85,7 @@ public class SSDPplus {
                     Pnovo = CRUZAMENTO.ANDduasPopulacoes(P, P, tipoAvaliacao);
                     indiceGeracoes++;
                 }else{
-                    Pnovo = CRUZAMENTO.uniforme2Pop(P, mutationTax, tipoAvaliacao);
+                    Pnovo = CRUZAMENTO.uniforme2Boys(P, mutationTax, tipoAvaliacao);
                 }
                 PAsterisco = SELECAO.selecionarMelhores(P, Pnovo);
                 P = PAsterisco;

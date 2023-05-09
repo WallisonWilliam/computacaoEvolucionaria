@@ -26,7 +26,7 @@ public class SSDPTheBoys {
         long t0 = System.currentTimeMillis(); //Initial time
 
         Pattern[] Pk = new Pattern[k];
-        Pattern[] P = null;
+        Pattern[] P;
 
         //Inicializa Pk com indivíduos vazios
         for(int i = 0; i < Pk.length;i++){
@@ -51,16 +51,8 @@ public class SSDPTheBoys {
 
         Arrays.sort(P);
 
-
-        //System.arraycopy(P, 0, Pk, 0, k); //Inicializa Pk com os melhores indivíduos da população inicial
         SELECAO.salvandoRelevantesDPmais(Pk, P, similaridade);
 
-//        System.out.println("P0");
-//        System.out.println("Qualidade média k/P: " + Avaliador.avaliarMedia(Pk,k) + "/" + Avaliador.avaliarMedia(P,P.length));
-//        System.out.println("Dimensão média k/P: " + Avaliador.avaliarMediaDimensoes(Pk,k) + "/" + Avaliador.avaliarMediaDimensoes(P,P.length));
-//        System.out.println("Cobertura +: " + Avaliador.coberturaPositivo(Pk,k));
-//        Avaliador.imprimirDimensaoQuantidade(Pk, k, 15);
-//        Avaliador.imprimirDimensaoQuantidade(P, P.length, 15);
 
         int numeroGeracoesSemMelhoraPk = 0;
         int indiceGeracoes = 1;
@@ -80,13 +72,14 @@ public class SSDPTheBoys {
 
             double mutationTax = 0.4; //Mutação inicia em 0.4. Crossover é sempre 1-mutationTax.
             //System.out.println("============================");
+
             while(numeroGeracoesSemMelhoraPk < 3){
 
                 if(indiceGeracoes == 1){
                     Pnovo = CRUZAMENTO.ANDduasPopulacoes(P, P, tipoAvaliacao);
                     indiceGeracoes++;
                 }else{
-                    Pnovo = CRUZAMENTO.uniforme2Pop(P, mutationTax*0.5, tipoAvaliacao);
+                    Pnovo = CRUZAMENTO.uniforme2Boys(P, mutationTax, tipoAvaliacao);
                 }
                 PAsterisco = SELECAO.selecionarMelhores(P, Pnovo);
                 P = PAsterisco;
@@ -154,8 +147,8 @@ public class SSDPTheBoys {
         //*******************************************
         String caminho = "C:\\Users\\Wallison\\Downloads\\ssdp_plus-mastera\\SSDPplus\\pastas\\bases\\";
         //String nomeBase = "alon-clean50-pn-width-2.CSV";
-        String nomeBase = "ENEM2014_81_NOTA_10k.csv";
-        //String nomeBase = "matrixBinaria-Global-100-p.csv";
+        //String nomeBase = "ENEM2014_81_NOTA_10k.csv";
+        String nomeBase = "matrixBinaria-Global-100-p.csv";
         String caminhoBase = caminho + nomeBase;
 
         //separator database (CSV files)
