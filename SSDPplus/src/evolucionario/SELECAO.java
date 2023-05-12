@@ -124,6 +124,84 @@ public class SELECAO {
 
         return indiceSelecionado;
     }
+        
+    public static int[] selecaoRanking(int tamanhoPopulacao, Pattern[] P){
+        int[] indices = new int[tamanhoPopulacao];
+        int n = P.length;
+
+        // Criar um array de pares (índice, aptidão)
+        Pair<Integer, Double>[] aptidoes = new Pair[n];
+        for (int i = 0; i < n; i++) {
+            aptidoes[i] = new Pair<>(i, P[i].getQualidade());
+        }
+
+        // Ordenar o array de pares com base na aptidão
+        Arrays.sort(aptidoes, (p1, p2) -> Double.compare(p2.getValue(), p1.getValue()));
+
+        // Calcular a soma das posições do ranking
+        int somaPosicoes = n * (n + 1) / 2;
+
+        // Calcular a probabilidade de seleção com base no ranking
+        double[] probabilidade = new double[n];
+        for (int i = 0; i < n; i++) {
+            probabilidade[i] = (double) (i + 1) / somaPosicoes;
+        }
+
+        // Selecionar os indivíduos usando a probabilidade de seleção
+        for (int i = 0; i < tamanhoPopulacao; i++) {
+            double randomValue = Const.random.nextDouble();
+            double acumulado = 0;
+
+            for (int j = 0; j < n; j++) {
+                acumulado += probabilidade[j];
+
+                if (randomValue <= acumulado) {
+                    indices[i] = aptidoes[j].getKey();
+                    break;
+                }
+            }
+        }
+
+        return indices;
+    }
+
+
+    public static int selecaoRanking(Pattern[] P){
+        int n = P.length;
+
+        // Criar um array de pares (índice, aptidão)
+        Pair<Integer, Double>[] aptidoes = new Pair[n];
+        for (int i = 0; i < n; i++) {
+            aptidoes[i] = new Pair<>(i, P[i].getQualidade());
+        }
+
+        // Ordenar o array de pares com base na aptidão
+        Arrays.sort(aptidoes, (p1, p2) -> Double.compare(p2.getValue(), p1.getValue()));
+
+        // Calcular a soma das posições do ranking
+        int somaPosicoes = n * (n + 1) / 2;
+
+        // Calcular a probabilidade de seleção com base no ranking
+        double[] probabilidade = new double[n];
+        for (int i = 0; i < n; i++) {
+            probabilidade[i] = (double) (i + 1) / somaPosicoes;
+        }
+
+        // Selecionar o índice do indivíduo usando a probabilidade de seleção
+        double randomValue = Const.random.nextDouble();
+        double acumulado = 0;
+        int indiceSelecionado = 0;
+
+        for (int j = 0; j < n; j++) {
+            acumulado += probabilidade[j];
+            if (randomValue <= acumulado) {
+                indiceSelecionado = aptidoes[j].getKey();
+                break;
+            }
+        }
+
+        return indiceSelecionado;
+    }
     
     /**
      * Retorna índice vencedor em torneio binário (entre dois indivíduos aleatórios)
